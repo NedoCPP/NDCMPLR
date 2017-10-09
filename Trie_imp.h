@@ -1,6 +1,6 @@
 #ifndef TRIE_IMP
 #define TRIE_IMP
-
+#include <iostream>
 #include <string>
 #include <memory>
 #include <vector>
@@ -69,13 +69,33 @@ void Trie::lookahead(std::string searchstring)
     {
         second++;
     }
-    lexems.emplace_back(std::string(first,second));
+   lexems.emplace_back(std::string(first,second));
+    first=second;
+  }
+ else
+  {
+   if(searchstring.end()-1>=second+lexemMaxLenght)
+   {
+    second+=lexemMaxLenght;
+     while(!search(std::string(first,second)))
+     {
+      second--;
+     }
+       lexems.emplace_back(first,second);
+        first=second;
+   }
+   else
+   {
+    second=searchstring.end();
+     while(!search(std::string(first,second)))
+     {
+      second--;
+     }
+       lexems.emplace_back(first,second);
+   }
   }
 
-
-
  }
-
 }
 
 #endif // TRIE_IMP_
