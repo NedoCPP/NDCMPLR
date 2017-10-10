@@ -40,25 +40,33 @@ std::shared_ptr<Node> head =(std::make_shared<Node>(false));
      if(current->edges[i]==nullptr)
      {
       current->edges[i]=std::make_unique<Node>();
-       current->edges[i]->sign=i;
+      current->edges[i]->sign=i;
      }
     current=current->edges[i];
    }
    current->end=true;
-    current=head;
+   current=head;
  }
  bool Trie::search(std::string keyCheck)
  {
-    return 1;
+  current=head;
+   for(auto i:keyCheck)
+   {
+    if(current->edges[i]!=nullptr)
+       current=current->edges[i];
+    else
+       return false;
+   }
+  return true;
  }
-void Trie::lookahead(std::string searchstring)
-{
+ void Trie::lookahead(std::string searchstring)
+ {
   std::locale loc;
-   auto first=searchstring.begin();
-    std::string::iterator second;
+  auto first=searchstring.begin();
+  std::string::iterator second;
 
   searchstring.size()>=lexemMaxLenght           ?
-   (second=searchstring.begin()+lexemMaxLenght) :
+   (second=first) :
    (second=searchstring.end()-1);
 /////////////////////////////////////////////////
  while(second<=searchstring.end()-1)
@@ -70,11 +78,11 @@ void Trie::lookahead(std::string searchstring)
         second++;
     }
    lexems.emplace_back(std::string(first,second));
-    first=second;
+   first=second;
   }
  else
   {
-   if(searchstring.end()-1>=second+lexemMaxLenght)
+   if(second+lexemMaxLenght<=searchstring.end())
    {
     second+=lexemMaxLenght;
      while(!search(std::string(first,second)))
@@ -82,7 +90,7 @@ void Trie::lookahead(std::string searchstring)
       second--;
      }
        lexems.emplace_back(first,second);
-        first=second;
+       first=second;
    }
    else
    {
@@ -92,10 +100,10 @@ void Trie::lookahead(std::string searchstring)
       second--;
      }
        lexems.emplace_back(first,second);
+    }
+
    }
   }
-
  }
-}
 
 #endif // TRIE_IMP_
