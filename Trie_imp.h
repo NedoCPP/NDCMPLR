@@ -7,7 +7,7 @@
 #include <map>
 #include <sstream>
 #include <locale>
-//Aho-Corasick + lookahead
+//Trie + lookahead (=Aho-Corasick ?)
 
 struct Node
 {
@@ -65,8 +65,8 @@ std::shared_ptr<Node> head =(std::make_shared<Node>(false));
   auto first=searchstring.begin();
   std::string::iterator second;
 
-  searchstring.size()>=lexemMaxLenght           ?
-   (second=first) :
+  searchstring.size()>=lexemMaxLenght ?
+   (second=first)                     :
    (second=searchstring.end()-1);
 /////////////////////////////////////////////////
  while(second<=searchstring.end()-1)
@@ -101,7 +101,6 @@ std::shared_ptr<Node> head =(std::make_shared<Node>(false));
      }
        lexems.emplace_back(first,second);
     }
-
    }
   }
  }
